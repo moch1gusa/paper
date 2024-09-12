@@ -1,0 +1,15 @@
+; MOL02_GMX.top created by acpype (Rev: 10101) on Thu Sep 12 16:52:07 2024
+
+[ defaults ]
+; nbfunc        comb-rule       gen-pairs       fudgeLJ fudgeQQ
+1               2               yes             0.5     0.8333
+
+; Include MOL02_GMX.itp topology
+#include "MOL02_GMX.itp"
+
+[ system ]
+ MOL02
+
+[ molecules ]
+; Compound        nmols
+ MOL02            1     

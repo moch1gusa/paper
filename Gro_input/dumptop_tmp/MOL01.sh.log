@@ -1,0 +1,87 @@
+*************************************************
+***     Assigning parameters using ACPYPE     ***
+*************************************************
+which acpype.py
+/usr/local/acpype/acpype.py
+RES=$?
+set +v
+acpype.py -d -o gmx -i MOL01.mol2  -c user -f 
+=================================================================================================
+| ACPYPE: AnteChamber PYthon Parser interfacE v. 2017-01-17 22:13:52Z Rev: 10101 (c) 2024 AWSdS |
+=================================================================================================
+DEBUG: Python Version 2.7.18
+DEBUG: Max execution time tolerance is 10h
+DEBUG: /usr/local/amber18/bin/antechamber -dr no  -i MOL01.mol2 -fi mol2 -o tmp -fo ac -pf y
+DEBUG: 
+Welcome to antechamber 17.3: molecular input file processor.
+
+
+DEBUG: setResNameCheckCoords done
+==> Reading user's charges from mol2 file...
+==> Debugging...
+DEBUG: /usr/local/amber18/bin/antechamber -dr no  -i MOL01.mol2 -fi mol2 -o tmp -fo mol2 -c wc -cf tmp.crg -pf n
+++++++++++start_quote+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Welcome to antechamber 17.3: molecular input file processor.
+
+
+++++++++++end_quote+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DEBUG: readMol2TotalCharge: 0.0
+DEBUG: Net charge drift '0.000000'
+==> ... charge set to 0
+==> Executing Antechamber...
+==> Debugging...
+DEBUG: /usr/local/amber18/bin/antechamber -dr no  -i MOL01.mol2 -fi mol2 -o MOL01_user_gaff.mol2 -fo mol2  -nc 0 -m 1 -s 2 -df 2 -at gaff -pf n 
+==> * Antechamber OK *
+DEBUG: /usr/local/amber18/bin/parmchk2 -i MOL01_user_gaff.mol2 -f mol2 -o MOL01_AC.frcmod
+==> * Parmchk OK *
+==> Executing Tleap...
+DEBUG: /usr/local/amber18/bin/tleap -f tleap.in
+++++++++++start_quote+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Checking 'MOL'....
+Checking parameters for unit 'MOL'.
+Checking for bond parameters.
+Checking for angle parameters.
+Unit is OK.
+++++++++++end_quote+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+==> * Tleap OK *
+DEBUG: prmtop and inpcrd files loaded
+DEBUG: basename defined = 'MOL01'
+DEBUG: getCoords done
+DEBUG: getABCOEFs done
+DEBUG: charge to be balanced: total -0.0000000010
+DEBUG: balanceCharges done
+DEBUG: Balanced TotalCharge  0.0000000000
+DEBUG: PBC = None
+DEBUG: getAtoms done
+DEBUG: getBonds done
+DEBUG: getAngles done
+DEBUG: getDihedrals done
+==> Writing GROMACS files
+
+DEBUG: writing GRO file
+DEBUG: Box size estimated
+DEBUG: atomTypes 5
+DEBUG: GMX atomtypes done
+DEBUG: atoms 9
+DEBUG: GMX atoms done
+DEBUG: bonds 8
+DEBUG: GMX bonds done
+DEBUG: atomPairs 12
+DEBUG: GMX pairs done
+DEBUG: angles 13
+DEBUG: GMX angles done
+DEBUG: setProperDihedralsCoef done
+DEBUG: properDihedralsCoefRB 12
+DEBUG: properDihedralsAlphaGamma 0
+DEBUG: properDihedralsGmx45 16
+==> Writing GMX dihedrals for GMX 4.5 and higher.
+
+DEBUG: GMX special proper dihedrals done
+DEBUG: improperDihedrals 0
+DEBUG: GMX improper dihedrals done
+==> Writing pickle file MOL01.pkl
+Total time of execution: 2s
+set +v
+sed -i.bak -e "s/ MOL /MOL01/g" MOL01.acpype/MOL01_GMX.itp
+cp MOL01.acpype/MOL01_GMX.itp MOL01.itp

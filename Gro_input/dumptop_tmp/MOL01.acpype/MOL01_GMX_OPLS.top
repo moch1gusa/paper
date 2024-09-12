@@ -1,0 +1,14 @@
+; MOL01_GMX_OPLS.top created by acpype (Rev: 10101) on Thu Sep 12 16:52:05 2024
+
+; Include forcefield parameters
+#include "ffoplsaa.itp"
+
+; Include MOL01_GMX.itp topology
+#include "MOL01_GMX.itp"
+
+[ system ]
+ MOL01
+
+[ molecules ]
+; Compound        nmols
+ MOL01            1     
