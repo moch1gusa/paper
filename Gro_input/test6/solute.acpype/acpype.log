@@ -1,0 +1,84 @@
+============================================================================
+| ACPYPE: AnteChamber PYthon Parser interfacE v. 2023.10.27 (c) 2024 AWSdS |
+============================================================================
+DEBUG: CLI: -i solute.mol2 -o gmx
+DEBUG: Python Version 3.9.19 | packaged by conda-forge | (main, Mar 20 2024, 12:50:21) 
+[GCC 12.3.0]
+DEBUG: Max execution time tolerance is 3h
+DEBUG: /home/yomogita/.conda/envs/env01/bin/antechamber -dr no -i solute.mol2 -fi mol2 -o tmp -fo ac -pf y
+DEBUG: 
+Welcome to antechamber 22.0: molecular input file processor.
+
+Info: The atom type is set to gaff; the options available to the -at flag are
+ gaff, gaff2, amber, bcc, and sybyl.
+
+
+DEBUG: setResNameCheckCoords done
+WARNING: no charge value given, trying to guess one...
+DEBUG: /home/yomogita/.conda/envs/env01/bin/antechamber -dr no -i solute.mol2 -fi mol2 -o tmp -fo mol2 -c gas -pf n
+DEBUG: /home/yomogita/.conda/envs/env01/bin/antechamber -dr no -i tmp -fi mol2 -o tmp -fo mol2 -c wc -cf tmp.crg -pf n
+DEBUG: ++++++++++start_quote+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DEBUG: 
+Welcome to antechamber 22.0: molecular input file processor.
+
+Info: The atom type is set to gaff; the options available to the -at flag are
+ gaff, gaff2, amber, bcc, and sybyl.
+
+
+DEBUG: ++++++++++end_quote+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DEBUG: readMol2TotalCharge: -3.469446951953614e-17
+DEBUG: Net charge drift '0.000000'
+==> ... charge set to 0
+==> Executing Antechamber...
+DEBUG: /home/yomogita/.conda/envs/env01/bin/antechamber -dr no -i solute.mol2 -fi mol2 -o solute_bcc_gaff2.mol2 -fo mol2 -c bcc -nc 0 -m 1 -s 2 -df 2 -at gaff2 -pf n 
+==> AC output file present... doing nothing
+==> * Antechamber OK *
+DEBUG: /home/yomogita/.conda/envs/env01/bin/parmchk2 -i solute_bcc_gaff2.mol2 -f mol2 -o solute_AC.frcmod -s 2
+==> * Parmchk OK *
+==> Topologies files already present... doing nothing
+==> * Tleap OK *
+==> Removing temporary files...
+DEBUG: prmtop and inpcrd files loaded
+DEBUG: basename defined = 'solute'
+DEBUG: getCoords done
+DEBUG: getABCOEFs done
+DEBUG: charge to be balanced: total -0.0020000022
+DEBUG: balanceCharges done
+DEBUG: Balanced TotalCharge -0.0000000000
+DEBUG: PBC = None
+DEBUG: getAtoms done
+DEBUG: getBonds done
+DEBUG: getAngles done
+DEBUG: getDihedrals done
+==> Using OpenBabel v.3.1.0
+
+==> Writing GROMACS files
+
+==> Disambiguating lower and uppercase atomtypes in GMX top file, even if identical.
+
+DEBUG: writing GRO file
+DEBUG: Box size estimated
+DEBUG: writing POSRE file
+DEBUG: atomTypes 5
+DEBUG: GMX atomtypes done
+DEBUG: atoms 17
+DEBUG: GMX atoms done
+DEBUG: bonds 17
+DEBUG: GMX bonds done
+DEBUG: atomPairs 45
+DEBUG: GMX pairs done
+DEBUG: angles 33
+DEBUG: GMX angles done
+DEBUG: setProperDihedralsCoef done
+DEBUG: properDihedralsCoefRB 48
+DEBUG: properDihedralsAlphaGamma 0
+DEBUG: properDihedralsGmx45 48
+==> Writing GMX dihedrals for GMX 4.5 and higher.
+
+DEBUG: GMX special proper dihedrals done
+DEBUG: improperDihedrals 0
+DEBUG: GMX improper dihedrals done
+==> Pickle file solute.pkl already present... doing nothing
+==> Removing temporary files...
+Total time of execution: 10s
+DEBUG: No tmp folder left to be removed

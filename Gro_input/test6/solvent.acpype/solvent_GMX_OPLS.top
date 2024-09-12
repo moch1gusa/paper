@@ -1,0 +1,19 @@
+; solvent_GMX_OPLS.top created by acpype (v: 2023.10.27) on Tue Sep 10 13:40:23 2024
+
+; Include forcefield parameters
+#include "ffoplsaa.itp"
+
+; Include solvent_GMX.itp topology
+#include "solvent_GMX.itp"
+
+; Ligand position restraints
+#ifdef POSRES_LIG
+#include "posre_solvent.itp"
+#endif
+
+[ system ]
+ solvent
+
+[ molecules ]
+; Compound        nmols
+ solvent          1     
