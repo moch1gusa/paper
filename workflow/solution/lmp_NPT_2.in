@@ -1,0 +1,31 @@
+units           real
+atom_style      full
+boundary        p p p
+box             tilt large
+pair_style      lj/cut/coul/long 10 10 
+pair_modify     mix arithmetic
+special_bonds   amber
+bond_style      harmonic
+angle_style     harmonic
+dihedral_style  charmm
+improper_style  cvff
+#read_restart    restart.1
+read_data       solution.data
+neighbor        2.0 bin
+neigh_modify    delay 0
+kspace_style    pppm 1e-5
+kspace_modify   order 4 
+dump            1 all custom 1000 solution.dump id type xs ys zs ix iy iz vx vy vz
+dump            2 all xtc 50 solution.xtc
+restart         1000 restart.1 restart.2
+fix             1 all shake 1e-5 1000 0 m 1.0  
+fix             2 all npt temp 300. 300. 100. tchain 3 iso 1. 1. 100. pchain 3
+fix             3 all momentum 50 linear 1 1 1 
+variable        GamNsurf equal lz*(pzz-0.5*(pxx+pyy))*101325/1e10*1e3
+thermo_style    custom step time temp pe ke etotal econserve ecouple enthalpy press vol density lx ly lz pxx pyy pzz pxy pxz pyz v_GamNsurf epair evdwl ecoul elong etail emol ebond eangle edihed eimp
+thermo_modify   flush yes 
+thermo          10
+timestep        2
+run             25000
+write_restart   solution.restart
+write_data      solution_final.data
