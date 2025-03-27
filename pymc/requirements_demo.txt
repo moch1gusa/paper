@@ -1,0 +1,19 @@
+pymc == 5.19.1
+arviz
+jax == 0.4.14
+jaxlib ==0.4.14
+numpy == 1.25.2
+pandas
+scikit-learn
+matplotlib
+jupyter
+seaborn
+tqdm
+graphviz
+numpyro == 0.12.1
+scipy == 1.12.0
+plotly
+ipykernel
+japanize-matplotlib
+pymc-extras
+pymc-bart
