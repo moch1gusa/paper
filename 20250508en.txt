@@ -1,0 +1,48 @@
+﻿Hi, everyone, thanks for joining today.
+From this session onwards, let's have a technical discussion about the material exploration project for cooling oil.
+We haven't made much progress because of the short holiday break, but I have a few things I'd like to ask.
+p2
+This is the flow for the liquid immersion cooling oil part shown at the kickoff meeting. I'll report on the acquisition of the chemical space shown in the upper left and the operational check of KPGT. Also, if time permits, please let me discuss the dielectric constant simulation part as well.
+p3
+First, regarding the preparation of the solution space.
+The target characteristics for the materials in this project are as follows. As mentioned before, a low dielectric constant is the most important factor, so we need to build a prediction model for the dielectric constant, and we will use KPGT for this.
+We decided to use the PubChem database as the solution space. We were able to obtain structures from the FTP site, and we currently have 105 million structures. From these, we consulted with the experimental group about structures expected to be used as cooling oil and set the conditions as shown below. As a result, we obtained 7 million structures.
+We plan to use this as the solution space going forward.
+Does anyone have any comments? If not, I'll move on.
+Anticipated Questions:
+ * Regarding the specification of the number of carbons and elements: These have been discussed and decided with the experimental group.
+ * Regarding P and S (Phosphorus and Sulfur): Phosphorus and sulfur are realistically rarely used and have low priority. We considered incorporating these elements in case the solution space turned out to be too small.
+p4
+Next, the KPGT execution file was provided, so I tried it out.
+Thank you for providing the code.
+Following the manual, I ran the KPGT pretrain code to check its operation and investigate the learning cost.
+The execution environment is a node equipped with two H100 PCIe cards. We used 100,000 structures for training. The training configuration used was [base], with no modifications, using the default conditions.
+One question: Our computational environment has different GPUs within a node. Does torch distributed run properly distribute the processing even among different GPUs?
+This time, we ran it using only the H100s.
+p5
+Pretraining progressed without issues initially, but it stopped with an error after 364 epochs. The script ran for about 17 hours, so I believe there's no problem with the input.
+I will paste the full error code into the chat.
+I suspect the cause of the error is storage capacity pressure due to the massive output of checkpoint files.
+Running the script just once consumed 3.5TB of storage, exceeding 100% usage.
+Will changing the checkpoint settings resolve the error?
+How can I reduce the frequency of checkpoint output?
+p6
+I was able to obtain the training history, which I'm showing here.
+It confirms that the loss has generally converged.
+The slope is also 1 \times 10^{-6}, which is an acceptable value.
+However, the learning rate value looks a bit unusual. Although the initial setting specifies a learning rate of 2 \times 10^{-4}, it starts from 0 and gradually increases. Normally, this value should decrease from 2 \times 10^{-4}.
+Why is this happening?
+p7
+We also performed fine-tuning. We obtained dielectric constant data near room temperature from this book. Currently, we only have about 200 data points. We are checking with the experimental group for other experimental data, and plan to expand the dataset, but I don't expect a significant increase in experimental data. Is this amount of data too small for using KPGT? Currently, comprehensive databases for the dielectric constants of organic molecules are not abundant.
+Another concern is the extreme scarcity of experimental data for low dielectric constants, which is our target characteristic. It's crucial to increase the experimental data in this region by any means necessary.
+Next, we split this experimental data into train, test, and validation sets and performed fine-tuning using the already published pre-trained model. This code ran without any problems.
+p8
+As mentioned in the kickoff, I believe the plan is to use VASP to calculate the dielectric constant.
+Since I'm not very familiar with VASP, I asked someone knowledgeable within the company, and they found a paper calculating the dielectric constant using a similar method.
+One method involves performing Molecular Dynamics (MD) with a Neural Network Potential (NNP), sampling structures from the trajectory, and then calculating Wannier centers using VASP's wannier90.
+In this method, it seems they sample structures every 1 ps from a 1 ns MD trajectory.
+However, a difference in our study is that we are dealing with the dielectric constant in the THz range, which allows for obtaining the dielectric constant with sampling over a relatively shorter time scale.
+p9
+This time, the target is the static dielectric constant, specifically the dielectric constant in the 20MHz-40GHz frequency range. Therefore, the required sampling time will be several tens of nanoseconds, and I am slightly concerned that the computational load for both MD and VASP will become enormous.
+While I can estimate the MD computational cost, I'm not familiar with VASP, so I don't know how long the dielectric constant calculation will take. If anyone has comments on this point, please let me know.
+As for the calculation method for the dielectric constant, using the dielectric tensor is also conceivable, but since we are dealing with organic molecules, I believe using localized waves with Wannier basis sets (or other localized wave basis sets) rather than plane waves would be preferable. What are your thoughts on this?
